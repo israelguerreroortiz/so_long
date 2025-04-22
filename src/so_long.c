@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:46:36 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/04/08 18:58:29 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:20:28 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minilibx-linux/mlx.h"
 #include <stdlib.h>
+#include "../mlx/mlx.h"
 
-#define WIDTH 400
-#define HEIGHT 400
+#define WIDTH 1000
+#define HEIGHT 800
 
 int main (void)
 {
