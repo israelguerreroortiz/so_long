@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 18:46:36 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/04/22 18:20:28 by isrguerr         ###   ########.fr       */
+/*   Created: 2025/04/23 17:47:40 by isrguerr          #+#    #+#             */
+/*   Updated: 2025/04/23 18:45:35 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "../mlx/mlx.h"
+#include "../includes/so_long.h"
+# include "../ft_printf/ft_printf.h"
+# include "../libft/libft.h"
 
-#define WIDTH 1000
-#define HEIGHT 800
-
-int main (void)
+int init (int argc, char **argv)
 {
+
     void *mlx_ptr;
     void *mlx_window;
-    
+    (void)argc;
+    (void)argv;
     mlx_ptr = mlx_init();
 
     if (!mlx_ptr)
@@ -37,4 +37,5 @@ int main (void)
     mlx_loop(mlx_ptr);
     mlx_destroy_display(mlx_ptr);
     free(mlx_ptr);
+    return (0);
 }
