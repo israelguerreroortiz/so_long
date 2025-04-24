@@ -39,6 +39,7 @@ clean:
 	rm -f $(OBJ)
 	make -C $(PRINTF) clean
 	make -C $(LIBFT) clean
+	make -C $(MLX_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)

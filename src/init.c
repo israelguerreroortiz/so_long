@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:47:40 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/04/23 18:45:35 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/04/24 18:58:47 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 # include "../ft_printf/ft_printf.h"
 # include "../libft/libft.h"
 
-int init (int argc, char **argv)
+int init (void)
 {
 
     void *mlx_ptr;
     void *mlx_window;
-    (void)argc;
-    (void)argv;
     mlx_ptr = mlx_init();
 
     if (!mlx_ptr)
