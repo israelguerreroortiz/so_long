@@ -2,7 +2,7 @@
 NAME = so_long
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 MLX_DIR = ./mlx
 MLX_LIB = $(MLX_DIR)/libmlx.a

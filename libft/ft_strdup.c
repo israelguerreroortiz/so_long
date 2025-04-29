@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 20:13:32 by isrguerr          #+#    #+#             */
-/*   Updated: 2024/10/10 13:25:36 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:08:42 by iisraa11         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 char	*ft_strdup(const char *s)
-{
+{	
 	char	*new;
 	size_t	buff_size;
 
