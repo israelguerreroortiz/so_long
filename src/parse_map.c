@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:41:37 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/04/29 18:58:28 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/16 00:21:12 by iisraa11         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,14 @@
 	y una posicion inicial (P). Espacios vacios representados con 0.
 */
 
-static int	map_height(const char *filename)
+/*
+	Función que retorna la altura del mapa
+*/
+static int map_height(const char *filename)
 {
-	char	*line;
-	int		height;
-	int		fd;
+	char *line;
+	int height;
+	int fd;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
@@ -43,11 +46,14 @@ static int	map_height(const char *filename)
 	close(fd);
 	return (height);
 }
-
-static int	count_len(t_game *game)
+/*
+	Función que comprueba que todas las líneas tengan la misma
+	longitud para tener un mapa válido y retorna esta longitud
+*/
+static int count_len(t_game *game)
 {
-	int		i;
-	size_t	len;
+	int i;
+	size_t len;
 
 	i = 0;
 	len = ft_strlen(game->map[i]);
@@ -60,59 +66,95 @@ static int	count_len(t_game *game)
 	return (0);
 }
 
-static int	map_elements(t_game *game, int line, int i)
+static int add_items(t_game *game, int line, int i)
 {
-	while (game->map[line++])
+	if (game->map[line][i] == 'E')
+		game->exits++;
+	else if (game->map[line][i] == 'C')
+		game->collectables++;
+	else if (game->map[line][i] == 'P')
+		game->player++;
+	else if (game->map[line][i] == '0')
+		game->spaces++;
+	else
+		return (1);
+	i++;
+	return (0);
+}
+
+int check_items(t_game *game)
+{
+	if (game->exits != 1)
+		return (1);
+	else if (game->player != 1)
+		return (1);
+	else if (game->collectables < 1)
+		return (1);
+	else
+		return (0);
+}
+
+/*
+	Función para mapear los elementos
+*/
+static int map_elements(t_game *game, int line, int i)
+{
+	while (game->map[line])
 	{
 		i = 0;
-		if (line == game->height || line == 0)
+		if (line == game->height - 1 || line == 0)
 		{
-			while (game->map[line][i++])
-				if (game->map[line][i] != '1')
-					return (1);
-		}
-		else
-		{
-			if (game->map[line][0] != '1' || game->map[line][game->line_len
-				- 1] != '1')
-				return (1);
-			while (game->map[line][i++])
+			while (game->map[line][i])
 			{
-				if (game->map[line][i] == 'E')
-					game->exits++;
-				else if (game->map[line][i] == 'C')
-					game->collectables++;
-				else if (game->map[line][i] == '0')
-					game->spaces++;
-				else
+				if (game->map[line][i++] != '1')
 					return (1);
 			}
 		}
+		else
+		{
+			if (game->map[line][0] != '1' || game->map[line][game->line_len - 1] != '1')
+				return (1);
+			i++;
+			while (i < game->line_len - 1)
+			{
+				if (add_items(game, line, i++) == 1)
+					return (1);
+			}
+		}
+		line++;
 	}
-	return (0);
+	return (check_items(game));
 }
 
-int	check_map(t_game *game)
+/*
+	Chequea que todas las líneas tengan la
+	misma longitud y el mapa sea válido
+*/
+int check_map(t_game *game)
 {
-	int	line;
-	int	i;
+	int line;
+	int i;
 
 	line = 0;
 	i = 0;
-	if (!count_len(game))
+	if (count_len(game) != 0)
 		return (1);
-	else if (!map_elements(game, line, i))
+	else if (map_elements(game, line, i) != 0)
+		return (1);
+	if (game->exits < 1 || game->collectables < 1 || game->player < 1)
 		return (1);
 	return (0);
 }
-
-int	copy_map(t_game *game, char *line, int fd)
+/*
+	Función que copia el mapa
+*/
+int copy_map(t_game *game, char *line, int fd)
 {
-	char	*trimmed;
-	int		i;
+	char *trimmed;
+	int i;
 
 	i = 0;
-	while ((line = get_next_line(fd)))
+	while ((line = get_next_line(fd)) != NULL)
 	{
 		trimmed = ft_strtrim(line, "\n");
 		if (!trimmed)
@@ -122,17 +164,19 @@ int	copy_map(t_game *game, char *line, int fd)
 		}
 		game->map[i++] = trimmed;
 		free(line);
-		game->height++;
 	}
 	game->map[i] = NULL;
 	close(fd);
 	return (0);
 }
-
-int	read_map(const char *filename, t_game *game)
+/*
+	Función que reserva memoria para el mapa y posteriormente
+	redirige a función para copiar el mapa
+*/
+int read_map(const char *filename, t_game *game)
 {
-	int		fd;
-	char	*line;
+	int fd;
+	char *line;
 
 	line = NULL;
 	fd = open(filename, O_RDONLY);
@@ -152,6 +196,6 @@ int	read_map(const char *filename, t_game *game)
 		close(fd);
 		return (1);
 	}
-	
+
 	return (copy_map(game, line, fd));
 }

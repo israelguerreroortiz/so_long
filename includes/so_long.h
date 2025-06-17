@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:14:29 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/04/29 18:00:40 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/08 19:58:49 by iisraa11         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 typedef struct s_game
 {
 	int		spaces;
+	int		player;
 	int		collectables;
 	int		walls;
 	int		exits;
