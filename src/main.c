@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:46:36 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/17 20:12:27 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/18 00:17:51 by iisraa11         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-# include "../ft_printf/ft_printf.h"
-# include "../libft/libft.h"
+#include "../ft_printf/ft_printf.h"
+#include "../libft/libft.h"
 
 int free_game(t_game *game)
 {
@@ -35,18 +35,25 @@ int free_game(t_game *game)
     game->height = 0;
     game->line_len = 0;
     ft_printf("%s", "Mapa no válido");
-    exit (1);
+    exit(1);
 }
 
 int flood_fill(char **map, int x, int y, int height, int width)
 {
+    static int valid_exit = 0;
+    static int valid_collectionable = 0;
+
     if (x < 0 || y < 0 || x >= height || y >= width)
         return (0);
     if (map[x][y] == '1' || map[x][y] == 'V')
         return (0);
     if (map[x][y] == 'E')
+        valid_exit++;
+    if (map[x][y] == 'C')
+        valid_collectionable++;
+    if (valid_exit == 1 && valid_collectionable == 1)
         return (1);
-    map[x][y] = 'V'; // Mark as visited
+    map[x][y] = 'V';
     if (flood_fill(map, x + 1, y, height, width))
         return (1);
     if (flood_fill(map, x - 1, y, height, width))
@@ -58,86 +65,68 @@ int flood_fill(char **map, int x, int y, int height, int width)
     return (0);
 }
 
-int valid_map(t_game **game)
+int valid_map(t_game *game)
 {
-    int i, j;
+    int i;
+    int j;
     char **map_copy;
-    int found = 0;
+    int found;
 
-    // Allocate and copy the map
-    printf("Hola");
-    printf("%d", (*game)->height);
-    map_copy = malloc(sizeof(char *) * ((*game)->height + 1));
+    found = 0;
+    map_copy = malloc(sizeof(char *) * (game->height + 1));
     if (!map_copy)
         return (1);
-    for (i = 0; i < (*game)->height; i++)
+    i = 0;
+
+    while (i < game->height)
     {
-        map_copy[i] = ft_strdup((*game)->map[i]);
+        map_copy[i] = ft_strdup(game->map[i]);
         if (!map_copy[i])
         {
             while (--i >= 0)
                 free(map_copy[i]);
             free(map_copy);
-            return (1);
+            return (free_game(game));
         }
+        i++;
     }
-    map_copy[(*game)->height] = NULL;
-
-    // Find player position and start flood fill
-    for (i = 0; i < (*game)->height && !found; i++)
+    map_copy[game->height] = NULL;
+    i = 0;
+    while (i < game->height && !found)
     {
-        for (j = 0; j < (*game)->line_len && !found; j++)
+        j = 0;
+        while (j < game->line_len && !found)
         {
             if (map_copy[i][j] == 'P')
             {
-                found = flood_fill(map_copy, i, j, (*game)->height, (*game)->line_len);
+                found = flood_fill(map_copy, i, j, game->height, game->line_len);
             }
+            j++;
         }
+        i++;
     }
-
-    // Free map copy
-    for (i = 0; i < (*game)->height; i++)
-        free(map_copy[i]);
+    i = 0;
+    while (i < game->height)
+        free(map_copy[i++]);
     free(map_copy);
-
-    return (found ? 0 : 1);
+    return (found);
 }
 
 int main(int argc, char **argv)
 {
     t_game *game;
 
+    game = ft_calloc(1, sizeof(t_game));
+    if (!game)
+        return (1);
     if (argc != 2 || ft_strrncmp(argv[1], ".ber", 4))
     {
         perror("Error: Only valid arguments are ./so_long and a .ber file\n");
         return (1);
     }
+    if (check_map(argv[1], game) != 0)
+        return (free_game(game));
 
-    game = ft_calloc(1, sizeof(t_game));
-    if (!game)
-    {
-        perror("Error: Memory allocation failed\n");
-        return (1);
-    }
-
-    if (read_map(argv[1], game) != 0)
-    {
-        free_game(game);
-        ft_printf("%s", "El mapa no es válido");
-        return (1);   
-    }
-    else if (check_map(game) != 0)
-    {
-        free_game(game);
-        ft_printf("%s", "El mapa no es válido");
-        return (1);   
-    }
-    else if(valid_map(&game) != 0)
-    {
-        free_game(game);
-        ft_printf("%s", "El mapa no es válido");
-        return (1);   
-    }
     ft_printf("%s", "El mapa es válido");
     return (0);
 }

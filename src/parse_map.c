@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:41:37 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/17 18:18:30 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/18 00:17:23 by iisraa11         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ static int map_elements(t_game *game, int line, int i)
 	Chequea que todas las líneas tengan la
 	misma longitud y el mapa sea válido
 */
-int check_map(t_game *game)
+int check_errors(t_game *game)
 {
 	int line;
 	int i;
@@ -200,4 +200,24 @@ int read_map(const char *filename, t_game *game)
 	}
 
 	return (copy_map(game, line, fd));
+}
+
+int check_map(const char *filename, t_game *game)
+{
+	if (read_map(filename, game) != 0)
+	{
+		perror("Error: error reading map\n");
+		return (free_game(game));
+	}
+	else if (check_errors(game) != 0)
+	{
+		perror("Error: map is not valid\n");
+		return (free_game(game));
+	}
+	else if (valid_map(game) != 0)
+	{
+		perror("Error: map is not valid\n");
+		return (free_game(game));
+	}
+	return (0);
 }
