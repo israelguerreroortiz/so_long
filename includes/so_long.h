@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
+/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:14:29 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/08 19:58:49 by iisraa11         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:01:12 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct s_game
 	int		exits;
 	int		height;
 	int		line_len;
+	int		valid_exit;
+	int		valid_collectable;
 	char	**map;
 }			t_game;
 

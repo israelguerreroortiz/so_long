@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
+/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:41:37 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/16 00:21:12 by iisraa11         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:18:30 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static int add_items(t_game *game, int line, int i)
 		game->collectables++;
 	else if (game->map[line][i] == 'P')
 		game->player++;
+	else if (game->map[line][i] == '1')
+		game->walls++;
 	else if (game->map[line][i] == '0')
 		game->spaces++;
 	else
