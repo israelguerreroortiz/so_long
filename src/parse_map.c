@@ -6,7 +6,7 @@
 /*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:41:37 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/18 00:17:23 by iisraa11         ###   ########.fr       */
+/*   Updated: 2025/06/18 11:24:15 by iisraa11         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,91 +15,9 @@
 #include "../libft/libft.h"
 
 /*
-	Reglas para que el mapa sea valido:
-	-Todas las lineas deben tener la misma longitud.
-	Muros(1){
-		-Primera linea y ultima linea solo pueden haber 1
-		-2 y 3 linea primer y ultimo caracter deben ser 1
-	}
-	-El mapa al menos debe tener una salida (E), un coleccionable (C)
-	y una posicion inicial (P). Espacios vacios representados con 0.
+  Función que mapea los elementos de map.ber
 */
-
-/*
-	Función que retorna la altura del mapa
-*/
-static int map_height(const char *filename)
-{
-	char *line;
-	int height;
-	int fd;
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (0);
-	height = 0;
-	while ((line = get_next_line(fd)))
-	{
-		height++;
-		free(line);
-	}
-	close(fd);
-	return (height);
-}
-/*
-	Función que comprueba que todas las líneas tengan la misma
-	longitud para tener un mapa válido y retorna esta longitud
-*/
-static int count_len(t_game *game)
-{
-	int i;
-	size_t len;
-
-	i = 0;
-	len = ft_strlen(game->map[i]);
-	while (game->map[++i])
-	{
-		if (len != ft_strlen(game->map[i]))
-			return (1);
-	}
-	game->line_len = len;
-	return (0);
-}
-
-static int add_items(t_game *game, int line, int i)
-{
-	if (game->map[line][i] == 'E')
-		game->exits++;
-	else if (game->map[line][i] == 'C')
-		game->collectables++;
-	else if (game->map[line][i] == 'P')
-		game->player++;
-	else if (game->map[line][i] == '1')
-		game->walls++;
-	else if (game->map[line][i] == '0')
-		game->spaces++;
-	else
-		return (1);
-	i++;
-	return (0);
-}
-
-int check_items(t_game *game)
-{
-	if (game->exits != 1)
-		return (1);
-	else if (game->player != 1)
-		return (1);
-	else if (game->collectables < 1)
-		return (1);
-	else
-		return (0);
-}
-
-/*
-	Función para mapear los elementos
-*/
-static int map_elements(t_game *game, int line, int i)
+int map_elements(t_game *game, int line, int i)
 {
 	while (game->map[line])
 	{
@@ -209,12 +127,12 @@ int check_map(const char *filename, t_game *game)
 		perror("Error: error reading map\n");
 		return (free_game(game));
 	}
-	else if (check_errors(game) != 0)
+	if (check_errors(game) != 0)
 	{
 		perror("Error: map is not valid\n");
 		return (free_game(game));
 	}
-	else if (valid_map(game) != 0)
+	if (valid_map(game) != 0)
 	{
 		perror("Error: map is not valid\n");
 		return (free_game(game));
