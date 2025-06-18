@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
+/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:46:36 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/18 11:19:16 by iisraa11         ###   ########.fr       */
+/*   Updated: 2025/06/18 20:27:30 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,11 @@ int main(int argc, char **argv)
         return (1);
     if (argc != 2 || ft_strrncmp(argv[1], ".ber", 4))
     {
-        perror("Error: Only valid arguments are ./so_long and a .ber file\n");
+        ft_printf("Error: Only valid arguments are ./so_long and a .ber file\n");
         return (1);
     }
     if (check_map(argv[1], game) != 0)
         return (free_game(game));
-
-    ft_printf("%s", "El mapa es válido");
+    init(game);
     return (0);
 }

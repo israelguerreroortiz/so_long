@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_aux.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
+/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:21:48 by iisraa11          #+#    #+#             */
-/*   Updated: 2025/06/18 11:33:26 by iisraa11         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:06:39 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,19 @@ int map_height(const char *filename)
 	Función que comprueba que todas las líneas tengan la misma
 	longitud para tener un mapa válido y retorna esta longitud
 */
-int count_len(t_game *game)
+int check_width(t_game *game)
 {
 	int i;
-	size_t len;
+	size_t width;
 
 	i = 0;
-	len = ft_strlen(game->map[i]);
+	width = ft_strlen(game->map[i]);
 	while (game->map[++i])
 	{
-		if (len != ft_strlen(game->map[i]))
+		if (width != ft_strlen(game->map[i]))
 			return (1);
 	}
-	game->line_len = len;
+	game->width = width;
 	return (0);
 }
 

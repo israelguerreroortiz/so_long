@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
+/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:41:37 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/18 11:24:15 by iisraa11         ###   ########.fr       */
+/*   Updated: 2025/06/18 20:27:07 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int map_elements(t_game *game, int line, int i)
 		}
 		else
 		{
-			if (game->map[line][0] != '1' || game->map[line][game->line_len - 1] != '1')
+			if (game->map[line][0] != '1' || game->map[line][game->width - 1] != '1')
 				return (1);
 			i++;
-			while (i < game->line_len - 1)
+			while (i < game->width - 1)
 			{
 				if (add_items(game, line, i++) == 1)
 					return (1);
@@ -57,7 +57,7 @@ int check_errors(t_game *game)
 
 	line = 0;
 	i = 0;
-	if (count_len(game) != 0)
+	if (check_width(game) != 0)
 		return (1);
 	else if (map_elements(game, line, i) != 0)
 		return (1);
@@ -105,18 +105,17 @@ int read_map(const char *filename, t_game *game)
 	game->height = map_height(filename);
 	if (game->height <= 0)
 	{
-		perror("Error: height of map is not valid\n");
+		ft_printf("Error: height of map is not valid\n");
 		close(fd);
 		return (1);
 	}
 	game->map = malloc(sizeof(char *) * (game->height + 1));
 	if (game->map == NULL)
 	{
-		perror("Error: error in map malloc\n");
+		ft_printf("Error: error in map malloc\n");
 		close(fd);
 		return (1);
 	}
-
 	return (copy_map(game, line, fd));
 }
 
@@ -124,17 +123,17 @@ int check_map(const char *filename, t_game *game)
 {
 	if (read_map(filename, game) != 0)
 	{
-		perror("Error: error reading map\n");
+		ft_printf("Error: error reading map\n");
 		return (free_game(game));
 	}
 	if (check_errors(game) != 0)
 	{
-		perror("Error: map is not valid\n");
+		ft_printf("Error: map is not valid\n");
 		return (free_game(game));
 	}
 	if (valid_map(game) != 0)
 	{
-		perror("Error: map is not valid\n");
+		ft_printf("Error: map is not valid\n");
 		return (free_game(game));
 	}
 	return (0);
