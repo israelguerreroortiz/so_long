@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:19:27 by iisraa11          #+#    #+#             */
-/*   Updated: 2025/06/18 20:23:46 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:45:39 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,41 @@
 #include "../includes/so_long.h"
 #include "../libft/libft.h"
 
-int	flood_fill(char **map, int x, int y, t_game *game)
+int	flood_fill(char **map, int y, int x, t_game *game)
 {
-	static int	valid_exit = 0;
-	static int	valid_collectionable = 0;
 
-	if (x < 0 || y < 0 || x >= game->height || y >= game->width)
+	if (x < 0 || y < 0 || y >= game->height || x >= game->width)
 		return (0);
-	printf("Checking position (%d, %d)\n", x, y);
-	if (map[x][y] == '1' || map[x][y] == 'V')
+	if (map[y][x] == '1' || map[y][x] == 'V')
 		return (0);
-	if (map[x][y] == 'E')
-		valid_exit++;
-	if (map[x][y] == 'C')
-		valid_collectionable++;
-	if (valid_exit == 1 && valid_collectionable == game->collectables)
+	if (map[y][x] == 'E')
+		game->valid_exit++;
+	if (map[y][x] == 'C')
+		game->valid_collectable++;
+	if (game->valid_exit == 1 && game->valid_collectable == game->collectables)
 		return (1);
-	map[x][y] = 'V';
-	if (flood_fill(map, x + 1, y, game))
+	map[y][x] = 'V';
+	if (flood_fill(map, y + 1, x, game))
 		return (1);
-	if (flood_fill(map, x - 1, y, game))
+	if (flood_fill(map, y - 1, x, game))
 		return (1);
-	if (flood_fill(map, x, y + 1, game))
+	if (flood_fill(map, y, x + 1, game))
 		return (1);
-	if (flood_fill(map, x, y - 1, game))
+	if (flood_fill(map, y, x - 1, game))
 		return (1);
 	return (0);
 }
 
 int	valid_map(t_game *game)
 {
+	ft_printf("Game height: %d, width: %d\n", game->height, game->width);
 	char	**map_copy;
 	int		found;
 	
 	map_copy = allocate_and_copy_map(game);
 	if (map_copy == NULL)
 	{
-		perror("Error: Memory allocation failed for map copy\n");
+		ft_printf("Error: Memory allocation failed for map copy\n");
 		return (free_game(game));
 	}
 	found = find_player_and_flood_fill(map_copy, game);
@@ -88,22 +86,30 @@ char	**allocate_and_copy_map(t_game *game)
 
 int	find_player_and_flood_fill(char **map_copy, t_game *game)
 {
-	int	i;
-	int	j;
+	int	y;
+	int	x;
 	int	found;
 
 	found = 0;
-	i = 0;
-	while (i < game->height && !found)
+	y = 0;
+	while (y < game->height && !found)
 	{
-		j = 0;
-		while (j < game->width && !found)
+		x = 0;
+		while (x < game->width && !found)
 		{
-            if (map_copy[i][j] == 'P')
-			    found = flood_fill(map_copy, i, j, game);
-			j++;
+            if (map_copy[y][x] == 'P')
+			{
+				found = flood_fill(map_copy, y, x, game);
+				if (found)
+				{
+					game->map[y][x] = '0'; // Mark the player's position as visited
+					game->player_x = x;
+					game->player_y = y;
+				}
+			}
+			x++;
 		}
-		i++;
+		y++;
 	}
 	free_2d_array(map_copy);
 	return (found);
