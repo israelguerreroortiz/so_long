@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:14:29 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/18 19:49:01 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:45:02 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 
 typedef struct s_game
 {
+
+	int exit_active;
+	int steps;
 	void *img_floor;
 	void *img_wall;
 	void *img_player;
@@ -66,5 +69,12 @@ int check_width(t_game *game);
 int map_height(const char *filename);
 int	flood_fill(char **map, int x, int y, t_game *game);
 int init (t_game *game);
+void	move_up(t_game *game);
+void	move_down(t_game *game);
+void	move_left(t_game *game);
+void	move_right(t_game *game);
+void	move_player(t_game *game, int dx, int dy);
+int	close_window(t_game *game);
+void	render_map(t_game *game);
 
 #endif
