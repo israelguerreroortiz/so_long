@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:47:40 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/23 17:55:11 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/23 19:51:13 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int	init(t_game *game)
 		return (close_window(game));
 	render_tiles(game);
 	mlx_hook(game->win, 2, 1L << 0, key_hook, game);
+	mlx_hook(game->win, 17, 0, close_window, game);
 	mlx_loop(game->mlx);
 	free(game->mlx);
 	return (0);
