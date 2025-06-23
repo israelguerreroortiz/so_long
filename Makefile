@@ -17,7 +17,13 @@ PRINTF_LIB = $(PRINTF)/libftprintf.a
 SRC_DIR = ./src
 INC_DIR = ./includes
 
-SRC = $(wildcard $(SRC_DIR)/*.c)
+SRC = $(SRC_DIR)/main.c \
+		$(SRC_DIR)/flood_fill.c \
+		$(SRC_DIR)/map_elements.c \
+		$(SRC_DIR)/move_player.c \
+		$(SRC_DIR)/init.c \
+		$(SRC_DIR)/parse_map.c \
+		$(SRC_DIR)/parse_map_aux.c
 OBJ = $(SRC:.c=.o)
 
 
