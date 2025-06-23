@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:46:36 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/23 18:32:59 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/23 19:53:39 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_2d_array(char **array)
 void	free_images(t_game *game)
 {
 	if (!game->mlx)
-		return;
+		return ;
 	if (game->img_floor)
 		mlx_destroy_image(game->mlx, game->img_floor);
 	if (game->img_wall)
