@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:41:37 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/19 19:47:04 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:25:47 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,46 +14,10 @@
 #include "../includes/so_long.h"
 #include "../libft/libft.h"
 
-/*
-  Función que mapea los elementos de map.ber
-*/
-int map_elements(t_game *game, int line, int i)
+int	check_errors(t_game *game)
 {
-	while (game->map[line])
-	{
-		i = 0;
-		if (line == game->height - 1 || line == 0)
-		{
-			while (game->map[line][i])
-			{
-				if (game->map[line][i++] != '1')
-					return (1);
-			}
-		}
-		else
-		{
-			if (game->map[line][0] != '1' || game->map[line][game->width - 1] != '1')
-				return (1);
-			i++;
-			while (i < game->width - 1)
-			{
-				if (add_items(game, line, i++) == 1)
-					return (1);
-			}
-		}
-		line++;
-	}
-	return (check_items(game));
-}
-
-/*
-	Chequea que todas las líneas tengan la
-	misma longitud y el mapa sea válido
-*/
-int check_errors(t_game *game)
-{
-	int line;
-	int i;
+	int	line;
+	int	i;
 
 	line = 0;
 	i = 0;
@@ -65,16 +29,15 @@ int check_errors(t_game *game)
 		return (1);
 	return (0);
 }
-/*
-	Función que copia el mapa
-*/
-int copy_map(t_game *game, char *line, int fd)
+
+int	copy_map(t_game *game, char *line, int fd)
 {
-	char *trimmed;
-	int i;
+	char	*trimmed;
+	int		i;
 
 	i = 0;
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		trimmed = ft_strtrim(line, "\n");
 		if (!trimmed)
@@ -84,19 +47,17 @@ int copy_map(t_game *game, char *line, int fd)
 		}
 		game->map[i++] = trimmed;
 		free(line);
+		line = get_next_line(fd);
 	}
 	game->map[i] = NULL;
 	close(fd);
 	return (0);
 }
-/*
-	Función que reserva memoria para el mapa y posteriormente
-	redirige a función para copiar el mapa
-*/
-int read_map(const char *filename, t_game *game)
+
+int	read_map(const char *filename, t_game *game)
 {
-	int fd;
-	char *line;
+	int		fd;
+	char	*line;
 
 	line = NULL;
 	fd = open(filename, O_RDONLY);
@@ -119,22 +80,25 @@ int read_map(const char *filename, t_game *game)
 	return (copy_map(game, line, fd));
 }
 
-int check_map(const char *filename, t_game *game)
+int	check_map(const char *filename, t_game *game)
 {
 	if (read_map(filename, game) != 0)
 	{
 		ft_printf("Error: error reading map\n");
-		return (free_game(game));
+		free_all(game);
+		exit(1);
 	}
 	if (check_errors(game) != 0)
 	{
 		ft_printf("Error: map is not valid\n");
-		return (free_game(game));
+		free_all(game);
+		exit(1);
 	}
 	if (valid_map(game) != 0)
 	{
 		ft_printf("Error: map is not valid\n");
-		return (free_game(game));
+		free_all(game);
+		exit(1);
 	}
 	return (0);
 }

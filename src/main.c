@@ -6,58 +6,83 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:46:36 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/18 20:27:30 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:32:59 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
 #include "../ft_printf/ft_printf.h"
+#include "../includes/so_long.h"
 #include "../libft/libft.h"
 
-int free_game(t_game *game)
+void	free_2d_array(char **array)
 {
-    int i;
+	int	i;
 
-    if (!game || !game->map)
-        exit(1);
-    i = 0;
-    while (game->map[i] != NULL)
-    {
-        free(game->map[i]);
-        i++;
-    }
-    free(game->map);
-    exit(1);
+	if (!array)
+		return ;
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }
 
-void free_2d_array(char **array)
+void	free_images(t_game *game)
 {
-    int i;
-    if (!array)
-        return;
-    i = 0;
-    while (array[i])
-    {
-        free(array[i]);
-        i++;
-    }
-    free(array);
+	if (!game->mlx)
+		return;
+	if (game->img_floor)
+		mlx_destroy_image(game->mlx, game->img_floor);
+	if (game->img_wall)
+		mlx_destroy_image(game->mlx, game->img_wall);
+	if (game->img_collectable)
+		mlx_destroy_image(game->mlx, game->img_collectable);
+	if (game->img_exit)
+		mlx_destroy_image(game->mlx, game->img_exit);
+	if (game->img_player)
+		mlx_destroy_image(game->mlx, game->img_player);
 }
 
-int main(int argc, char **argv)
+void	free_all(t_game *game)
 {
-    t_game *game;
+	free_images(game);
+	if (game->win)
+		mlx_destroy_window(game->mlx, game->win);
+	if (game->mlx)
+	{
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+	}
+	free_2d_array(game->map);
+	free(game);
+}
 
-    game = ft_calloc(1, sizeof(t_game));
-    if (!game)
-        return (1);
-    if (argc != 2 || ft_strrncmp(argv[1], ".ber", 4))
-    {
-        ft_printf("Error: Only valid arguments are ./so_long and a .ber file\n");
-        return (1);
-    }
-    if (check_map(argv[1], game) != 0)
-        return (free_game(game));
-    init(game);
-    return (0);
+int	close_window(t_game *game)
+{
+	free_all(game);
+	exit(1);
+}
+
+int	main(int argc, char **argv)
+{
+	t_game	*game;
+
+	game = ft_calloc(1, sizeof(t_game));
+	if (!game)
+		return (1);
+	if (argc != 2 || ft_strrncmp(argv[1], ".ber", 4))
+	{
+		ft_printf("Error: Valid arguments are ./so_long and a .ber file\n");
+		return (1);
+	}
+	if (check_map(argv[1], game) != 0)
+	{
+		free_all(game);
+		return (1);
+	}
+	init(game);
+	free_all(game);
+	return (0);
 }

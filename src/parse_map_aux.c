@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:21:48 by iisraa11          #+#    #+#             */
-/*   Updated: 2025/06/18 16:06:39 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:18:41 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,31 @@
 #include "../includes/so_long.h"
 #include "../libft/libft.h"
 
-int map_height(const char *filename)
+int	map_height(const char *filename)
 {
-	char *line;
-	int height;
-	int fd;
+	char	*line;
+	int		height;
+	int		fd;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (0);
 	height = 0;
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		height++;
 		free(line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (height);
 }
-/*
-	Función que comprueba que todas las líneas tengan la misma
-	longitud para tener un mapa válido y retorna esta longitud
-*/
-int check_width(t_game *game)
+
+int	check_width(t_game *game)
 {
-	int i;
-	size_t width;
+	int		i;
+	size_t	width;
 
 	i = 0;
 	width = ft_strlen(game->map[i]);
@@ -52,7 +51,7 @@ int check_width(t_game *game)
 	return (0);
 }
 
-int add_items(t_game *game, int line, int i)
+int	add_items(t_game *game, int line, int i)
 {
 	if (game->map[line][i] == 'E')
 		game->exits++;
@@ -70,7 +69,7 @@ int add_items(t_game *game, int line, int i)
 	return (0);
 }
 
-int check_items(t_game *game)
+int	check_items(t_game *game)
 {
 	if (game->exits != 1)
 		return (1);

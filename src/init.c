@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:47:40 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/19 19:51:17 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:55:11 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@
 
 int	init_textures(t_game *game)
 {
-	int w, h;
+	int	w;
+	int	h;
+
+	w = 0;
+	h = 0;
 	game->img_wall = mlx_xpm_file_to_image(game->mlx, "sprites/wall.xpm", &w,
 			&h);
 	game->img_floor = mlx_xpm_file_to_image(game->mlx, "sprites/floor.xpm", &w,
@@ -33,66 +37,59 @@ int	init_textures(t_game *game)
 	return (0);
 }
 
-int	close_window(t_game *game)
-{
-	mlx_destroy_window(game->mlx, game->win);
-	mlx_destroy_display(game->mlx);
-	free(game->mlx);
-	exit(0);
-	return (0);
-}
-
 int	key_hook(int keycode, t_game *game)
 {
-	printf("key: %d\n", keycode);
-	printf("player: %d, %d\n", game->player_x, game->player_y); // posible crash aquí
-
-	if (keycode == 65307) // ESC
+	if (keycode == 65307)
 		close_window(game);
-	else if (keycode == 119) // W
+	else if (keycode == 119)
 		move_up(game);
-	else if (keycode == 115) // S
+	else if (keycode == 115)
 		move_down(game);
-	else if (keycode == 97) // A
+	else if (keycode == 97)
 		move_left(game);
-	else if (keycode == 100) // D
+	else if (keycode == 100)
 		move_right(game);
 	return (0);
 }
 
+void	render_tile(t_game *game, char tile, int x, int y)
+{
+	if (tile == '0')
+		mlx_put_image_to_window(game->mlx, game->win, game->img_floor, x
+			* TILE_SIZE, y * TILE_SIZE);
+	else if (tile == '1')
+		mlx_put_image_to_window(game->mlx, game->win, game->img_wall, x
+			* TILE_SIZE, y * TILE_SIZE);
+	else if (tile == 'C')
+		mlx_put_image_to_window(game->mlx, game->win, game->img_collectable, x
+			* TILE_SIZE, y * TILE_SIZE);
+	else if (tile == 'E')
+		mlx_put_image_to_window(game->mlx, game->win, game->img_exit, x
+			* TILE_SIZE, y * TILE_SIZE);
+}
 
-void	render_map(t_game *game)
+void	render_tiles(t_game *game)
 {
 	char	tile;
+	int		x;
+	int		y;
 
-	int x, y;
 	y = 0;
-	ft_printf("game width: %d, height: %d\n", game->width, game->height);
 	while (y < game->height)
 	{
 		x = 0;
 		while (x < game->width)
 		{
 			tile = game->map[y][x];
-			if (tile == '0')
-				mlx_put_image_to_window(game->mlx, game->win, game->img_floor, x
-					* TILE_SIZE, y * TILE_SIZE);
-			else if (tile == '1')
-				mlx_put_image_to_window(game->mlx, game->win, game->img_wall, x
-					* TILE_SIZE, y * TILE_SIZE);
-			else if (tile == 'C')
-				mlx_put_image_to_window(game->mlx, game->win,
-					game->img_collectable, x * TILE_SIZE, y * TILE_SIZE);
-			else if (tile == 'E')
-				mlx_put_image_to_window(game->mlx, game->win, game->img_exit, x
-					* TILE_SIZE, y * TILE_SIZE);
+			render_tile(game, tile, x, y);
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(game->mlx, game->win,
-			game->img_player, game->player_x * TILE_SIZE,
-			game->player_y * TILE_SIZE);
+	mlx_put_image_to_window(game->mlx, game->win, game->img_player,
+		game->player_x * TILE_SIZE, game->player_y * TILE_SIZE);
+	ft_printf("Steps: %d\n", game->steps);
+	game->steps++;
 }
 
 int	init(t_game *game)
@@ -109,14 +106,9 @@ int	init(t_game *game)
 		return (1);
 	}
 	if (init_textures(game) != 0)
-	{
-		mlx_destroy_window(game->mlx, game->win);
-		mlx_destroy_display(game->mlx);
-		free(game->mlx);
-		return (free_game(game));
-	}
-	render_map(game);
-	mlx_hook(game->win, 2, 1L<<0, key_hook, game);
+		return (close_window(game));
+	render_tiles(game);
+	mlx_hook(game->win, 2, 1L << 0, key_hook, game);
 	mlx_loop(game->mlx);
 	free(game->mlx);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:19:27 by iisraa11          #+#    #+#             */
-/*   Updated: 2025/06/19 19:45:39 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:35:47 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,22 @@
 #include "../includes/so_long.h"
 #include "../libft/libft.h"
 
+int	check_position(char **map_copy, int y, int x, t_game *game)
+{
+	int	found;
+
+	found = flood_fill(map_copy, y, x, game);
+	if (found)
+	{
+		game->map[y][x] = '0';
+		game->player_x = x;
+		game->player_y = y;
+	}
+	return (found);
+}
+
 int	flood_fill(char **map, int y, int x, t_game *game)
 {
-
 	if (x < 0 || y < 0 || y >= game->height || x >= game->width)
 		return (0);
 	if (map[y][x] == '1' || map[y][x] == 'V')
@@ -41,26 +54,20 @@ int	flood_fill(char **map, int y, int x, t_game *game)
 
 int	valid_map(t_game *game)
 {
-	ft_printf("Game height: %d, width: %d\n", game->height, game->width);
 	char	**map_copy;
 	int		found;
-	
+
 	map_copy = allocate_and_copy_map(game);
-	if (map_copy == NULL)
-	{
-		ft_printf("Error: Memory allocation failed for map copy\n");
-		return (free_game(game));
-	}
 	found = find_player_and_flood_fill(map_copy, game);
+	free_2d_array(map_copy);
 	if (found == 0)
 	{
 		ft_printf("Error: Map is not valid\n");
-		return (free_game(game));
+		return (1);
 	}
 	return (0);
 }
 
-// Helper function to allocate and copy the map
 char	**allocate_and_copy_map(t_game *game)
 {
 	char	**map_copy;
@@ -76,7 +83,9 @@ char	**allocate_and_copy_map(t_game *game)
 		if (!map_copy[i])
 		{
 			free_2d_array(map_copy);
-			return (NULL);
+			free_all(game);
+			ft_printf("Error: Memory allocation failed for map copy\n");
+			exit(1);
 		}
 		i++;
 	}
@@ -97,20 +106,11 @@ int	find_player_and_flood_fill(char **map_copy, t_game *game)
 		x = 0;
 		while (x < game->width && !found)
 		{
-            if (map_copy[y][x] == 'P')
-			{
-				found = flood_fill(map_copy, y, x, game);
-				if (found)
-				{
-					game->map[y][x] = '0'; // Mark the player's position as visited
-					game->player_x = x;
-					game->player_y = y;
-				}
-			}
+			if (map_copy[y][x] == 'P')
+				found = check_position(map_copy, y, x, game);
 			x++;
 		}
 		y++;
 	}
-	free_2d_array(map_copy);
 	return (found);
 }
