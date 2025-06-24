@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:19:27 by iisraa11          #+#    #+#             */
-/*   Updated: 2025/06/23 18:35:47 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/24 13:38:09 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,12 @@ int	flood_fill(char **map, int y, int x, t_game *game)
 	if (map[y][x] == '1' || map[y][x] == 'V')
 		return (0);
 	if (map[y][x] == 'E')
+	{
 		game->valid_exit++;
+		if (game->valid_exit == 1 && game->valid_collectable == game->collectables)
+			return (1);
+		return (0);	
+	}
 	if (map[y][x] == 'C')
 		game->valid_collectable++;
 	if (game->valid_exit == 1 && game->valid_collectable == game->collectables)
@@ -61,10 +66,7 @@ int	valid_map(t_game *game)
 	found = find_player_and_flood_fill(map_copy, game);
 	free_2d_array(map_copy);
 	if (found == 0)
-	{
-		ft_printf("Error: Map is not valid\n");
 		return (1);
-	}
 	return (0);
 }
 
@@ -107,7 +109,10 @@ int	find_player_and_flood_fill(char **map_copy, t_game *game)
 		while (x < game->width && !found)
 		{
 			if (map_copy[y][x] == 'P')
+			{
 				found = check_position(map_copy, y, x, game);
+				return (found);	
+			}
 			x++;
 		}
 		y++;
