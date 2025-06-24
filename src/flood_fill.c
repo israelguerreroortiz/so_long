@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:19:27 by iisraa11          #+#    #+#             */
-/*   Updated: 2025/06/24 13:38:09 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:07:55 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ int	flood_fill(char **map, int y, int x, t_game *game)
 	if (map[y][x] == 'E')
 	{
 		game->valid_exit++;
-		if (game->valid_exit == 1 && game->valid_collectable == game->collectables)
+		if (game->valid_exit == 1 && game->valid_collect == game->collect)
 			return (1);
-		return (0);	
+		return (0);
 	}
 	if (map[y][x] == 'C')
-		game->valid_collectable++;
-	if (game->valid_exit == 1 && game->valid_collectable == game->collectables)
+		game->valid_collect++;
+	if (game->valid_exit == 1 && game->valid_collect == game->collect)
 		return (1);
 	map[y][x] = 'V';
 	if (flood_fill(map, y + 1, x, game))
@@ -111,7 +111,7 @@ int	find_player_and_flood_fill(char **map_copy, t_game *game)
 			if (map_copy[y][x] == 'P')
 			{
 				found = check_position(map_copy, y, x, game);
-				return (found);	
+				return (found);
 			}
 			x++;
 		}

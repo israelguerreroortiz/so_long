@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:14:29 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/23 19:37:33 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:06:54 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,18 @@ typedef struct s_game
 	void	*img_wall;
 	void	*img_player;
 	void	*img_exit;
-	void	*img_collectable;
+	void	*img_collect;
 	void	*mlx;
 	void	*win;
 	int		spaces;
 	int		player;
-	int		collectables;
+	int		collect;
 	int		walls;
 	int		exits;
 	int		height;
 	int		width;
 	int		valid_exit;
-	int		valid_collectable;
+	int		valid_collect;
 	char	**map;
 	int		player_x;
 	int		player_y;

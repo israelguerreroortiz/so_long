@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:21:48 by iisraa11          #+#    #+#             */
-/*   Updated: 2025/06/23 18:18:41 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:07:21 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	add_items(t_game *game, int line, int i)
 	if (game->map[line][i] == 'E')
 		game->exits++;
 	else if (game->map[line][i] == 'C')
-		game->collectables++;
+		game->collect++;
 	else if (game->map[line][i] == 'P')
 		game->player++;
 	else if (game->map[line][i] == '1')
@@ -75,7 +75,7 @@ int	check_items(t_game *game)
 		return (1);
 	else if (game->player != 1)
 		return (1);
-	else if (game->collectables < 1)
+	else if (game->collect < 1)
 		return (1);
 	else
 		return (0);

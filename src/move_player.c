@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 19:03:11 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/23 17:42:14 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:08:18 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	move_player(t_game *game, int dx, int dy)
 	if (tile == 'C')
 	{
 		game->map[new_y][new_x] = '0';
-		if (--game->collectables == 0)
+		if (--game->collect == 0)
 			game->exit_active = 1;
 	}
 	if (tile == 'E')

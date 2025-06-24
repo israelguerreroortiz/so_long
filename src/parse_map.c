@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:41:37 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/23 18:25:47 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:07:23 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_errors(t_game *game)
 		return (1);
 	else if (map_elements(game, line, i) != 0)
 		return (1);
-	if (game->exits < 1 || game->collectables < 1 || game->player < 1)
+	if (game->exits < 1 || game->collect < 1 || game->player < 1)
 		return (1);
 	return (0);
 }

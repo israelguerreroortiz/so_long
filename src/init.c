@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:47:40 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/23 19:51:13 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:07:13 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	init_textures(t_game *game)
 			&w, &h);
 	game->img_exit = mlx_xpm_file_to_image(game->mlx, "sprites/exit.xpm", &w,
 			&h);
-	game->img_collectable = mlx_xpm_file_to_image(game->mlx,
-			"sprites/collect.xpm", &w, &h);
+	game->img_collect = mlx_xpm_file_to_image(game->mlx,
+			"sprites/collectt.xpm", &w, &h);
 	if (!game->img_wall || !game->img_floor || !game->img_player
-		|| !game->img_exit || !game->img_collectable)
+		|| !game->img_exit || !game->img_collect)
 		return (1);
 	return (0);
 }
@@ -61,7 +61,7 @@ void	render_tile(t_game *game, char tile, int x, int y)
 		mlx_put_image_to_window(game->mlx, game->win, game->img_wall, x
 			* TILE_SIZE, y * TILE_SIZE);
 	else if (tile == 'C')
-		mlx_put_image_to_window(game->mlx, game->win, game->img_collectable, x
+		mlx_put_image_to_window(game->mlx, game->win, game->img_collect, x
 			* TILE_SIZE, y * TILE_SIZE);
 	else if (tile == 'E')
 		mlx_put_image_to_window(game->mlx, game->win, game->img_exit, x

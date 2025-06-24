@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:46:36 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/23 19:53:39 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:07:16 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	free_images(t_game *game)
 		mlx_destroy_image(game->mlx, game->img_floor);
 	if (game->img_wall)
 		mlx_destroy_image(game->mlx, game->img_wall);
-	if (game->img_collectable)
-		mlx_destroy_image(game->mlx, game->img_collectable);
+	if (game->img_collect)
+		mlx_destroy_image(game->mlx, game->img_collect);
 	if (game->img_exit)
 		mlx_destroy_image(game->mlx, game->img_exit);
 	if (game->img_player)
