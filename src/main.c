@@ -6,7 +6,7 @@
 /*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:46:36 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/24 14:07:16 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/06/27 09:15:26 by isrguerr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,10 @@ int	main(int argc, char **argv)
 	game = ft_calloc(1, sizeof(t_game));
 	if (!game)
 		return (1);
-	if (argc != 2 || ft_strrncmp(argv[1], ".ber", 4))
+	if (argc != 2 || ft_strlen(argv[1]) < 5 || ft_strrncmp(argv[1], ".ber", 4))
 	{
-		ft_printf("Error: Valid arguments are ./so_long and a .ber file\n");
+		ft_printf("Error: Valid arguments are ./so_long and a *.ber file\n");
+		free_all(game);
 		return (1);
 	}
 	if (check_map(argv[1], game) != 0)
