@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_elements.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 18:03:05 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/23 18:03:34 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/10/01 17:02:53 by iisraa11         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,10 @@ static int	check_inner_line(t_game *game, int line)
 	return (0);
 }
 
-int	map_elements(t_game *game, int line, int i)
+int	map_elements(t_game *game, int line)
 {
 	while (game->map[line])
 	{
-		i = 0;
 		if (line == 0 || line == game->height - 1)
 		{
 			if (check_walls(game->map[line]) == 1)

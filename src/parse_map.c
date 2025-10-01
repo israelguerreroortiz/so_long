@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:41:37 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/24 14:07:23 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/10/01 17:04:40 by iisraa11         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@
 int	check_errors(t_game *game)
 {
 	int	line;
-	int	i;
 
 	line = 0;
-	i = 0;
 	if (check_width(game) != 0)
 		return (1);
-	else if (map_elements(game, line, i) != 0)
+	else if (map_elements(game, line) != 0)
 		return (1);
 	if (game->exits < 1 || game->collect < 1 || game->player < 1)
 		return (1);

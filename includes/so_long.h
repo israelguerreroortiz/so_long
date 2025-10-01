@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isrguerr <isrguerr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iisraa11 <iisraa11@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:14:29 by isrguerr          #+#    #+#             */
-/*   Updated: 2025/06/24 14:06:54 by isrguerr         ###   ########.fr       */
+/*   Updated: 2025/10/01 17:03:06 by iisraa11         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void		free_2d_array(char **array);
 int			valid_map(t_game *game);
 char		**allocate_and_copy_map(t_game *game);
 int			find_player_and_flood_fill(char **map_copy, t_game *game);
-int			map_elements(t_game *game, int line, int i);
+int			map_elements(t_game *game, int line);
 int			check_items(t_game *game);
 int			add_items(t_game *game, int line, int i);
 int			check_width(t_game *game);
